@@ -1,0 +1,90 @@
+LocalOye Questions API Django APP
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+The superuser to access the admin functions is
+username - ekwinder
+password - 123
+
+NOTE - Update and delete can only be performed by admin
+
+other created users -
+username - user1
+password -123
+
+Heroku link - ekwindersimpleapp.herokuapp.com/api/movie/
+
+Various API Links-
+/ - question list based on id
+/category/"category" - question list based on category mentioned
+/add - add new questions
+/categories - list all the available categories
+/edit/"pk" - edit or delete a question based on its id
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The API has been tested in the browser and by using Curl.
+
+NOTE - Update and delete can only be performed by admin
+
+Here are the tests performed-
+
+Simply accessing the API-
+
+ekwinder@STARGATE:~$ curl -X GET http://127.0.0.1:8000/
+[{"id":1,"title":"When should the electrician come?","category":2,"date":"2015-07-17T00:51:35.572624Z","answer":"default"},{"id":2,"title":"What is your address??","category":2,"date":"2015-07-17T00:53:01Z","answer":"default"},{"id":3,"title":"What is your contact information?","category":2,"date":"2015-07-17T00:53:25Z","answer":"default"},{"id":4,"title":"What is your gender?","category":1,"date":"2015-07-17T01:23:33Z","answer":"default"},{"id":5,"title":"What is your location?","category":1,"date":"2015-07-17T01:24:02Z","answer":"default"},{"id":6,"title":"What are your preferred timings?","category":1,"date":"2015-07-17T01:24:23Z","answer":"default"}]
+
+
+Getting questions based on categories-
+
+ekwinder@STARGATE:~$ curl -X GET http://127.0.0.1:8000/category/fitness/
+[{"id":4,"title":"What is your gender?","category":1,"date":"2015-07-17T01:23:33Z","answer":"default"},{"id":5,"title":"What is your location?","category":1,"date":"2015-07-17T01:24:02Z","answer":"default"},{"id":6,"title":"What are your preferred timings?","category":1,"date":"2015-07-17T01:24:23Z","answer":"default"}]
+
+
+Accessing the categories-
+
+ekwinder@STARGATE:~$ curl -X GET http://127.0.0.1:8000/categories/
+[{"id":1,"name":"Fitness"},{"id":2,"name":"Electrician"},{"id":3,"name":"Caterers"}]
+
+
+Adding a question-
+
+ekwinder@STARGATE:~$ curl -X POST http://127.0.0.1:8000/add/ -d "title=How are you?&category=1"
+{"id":8,"title":"How are you?","category":1,"date":"2015-07-17T02:40:08.043099Z","answer":"default"}
+
+
+Updating without being admin-
+
+ekwinder@STARGATE:~$ curl -X PUT http://127.0.0.1:8000/edit/1 -d "title=How are you?&category=1" -u eku:123
+{"detail":"You do not have permission to perform this action."}
+
+
+Updating as admin-
+
+ekwinder@STARGATE:~$ curl -X PUT http://127.0.0.1:8000/edit/8 -d "title=How are you now?&category=1" -u ekwinder:123
+{"id":8,"title":"How are you now?","category":1,"date":"2015-07-17T02:40:08.043099Z","answer":"default"}
+
+
+Deleting as not being admin-
+
+ekwinder@STARGATE:~$ curl -X DELETE http://127.0.0.1:8000/edit/8 -u eku:123
+{"detail":"You do not have permission to perform this action."}
+
+
+Deleting as admin-
+ekwinder@STARGATE:~$ curl -X DELETE http://127.0.0.1:8000/edit/8 -u ekwinder:123
+
+id 8 is deleted:
+
+ekwinder@STARGATE:~$ curl -X GET http://127.0.0.1:8000/
+[{"id":1,"title":"When should the electrician come?","category":2,"date":"2015-07-17T00:51:35.572624Z","answer":"default"},{"id":2,"title":"What is your address??","category":2,"date":"2015-07-17T00:53:01Z","answer":"default"},{"id":3,"title":"What is your contact information?","category":2,"date":"2015-07-17T00:53:25Z","answer":"default"},{"id":4,"title":"What is your gender?","category":1,"date":"2015-07-17T01:23:33Z","answer":"default"},{"id":5,"title":"What is your location?","category":1,"date":"2015-07-17T01:24:02Z","answer":"default"},{"id":6,"title":"What are your preferred timings?","category":1,"date":"2015-07-17T01:24:23Z","answer":"default"}]
+
+
+
+
+
+
+
+
+
+
