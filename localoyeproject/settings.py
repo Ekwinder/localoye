@@ -23,7 +23,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '5wc8ebb40br%gx1zk0^mot8%0_)2x*rqg&+ky@u0y)xa+l+0%4'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -103,7 +102,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = 'staticfiles'
-DEBUG = False
+DEBUG = True
 
 try:
     from .local_settings import *
